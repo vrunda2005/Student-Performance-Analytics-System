@@ -72,3 +72,26 @@ SELECT
     CAST(REPLACE(s.Homework_Completion_Pct, '%', '') AS REAL)
 FROM stg_performance s
 JOIN dim_students d ON s.Student_ID = d.student_id;
+
+-- Load Fact Homework
+INSERT INTO fact_homework (student_key, subject, assignment_name, due_date, status, grade_feedback, guardian_signature)
+SELECT 
+    d.student_key,
+    s.Subject,
+    s.Assignment_Name,
+    s.Due_Date,
+    s.Status,
+    s.Grade_Feedback,
+    CASE WHEN s.Guardian_Signature = 'Yes' THEN 1 ELSE 0 END
+FROM stg_homework s
+JOIN dim_students d ON s.Student_ID = d.student_id;
+
+-- Load Fact Communication
+INSERT INTO fact_communication (student_key, date, message_type, message_content)
+SELECT 
+    d.student_key,
+    s.Date,
+    s.Message_Type,
+    s.Message_Content
+FROM stg_communication s
+JOIN dim_students d ON s.Student_ID = d.student_id;

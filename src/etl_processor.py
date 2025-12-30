@@ -51,6 +51,14 @@ def process_file(file_path):
                 df.rename(columns={'Homework_Completion_%': 'Homework_Completion_Pct'}, inplace=True)
             table_name = 'stg_performance'
             
+        elif 'homework' in filename:
+            df['Due_Date'] = pd.to_datetime(df['Due_Date'], errors='coerce').dt.date
+            table_name = 'stg_homework'
+            
+        elif 'communication' in filename:
+            df['Date'] = pd.to_datetime(df['Date'], errors='coerce').dt.date
+            table_name = 'stg_communication'
+            
         else:
             print(f"Skipping unknown file type: {filename}")
             return

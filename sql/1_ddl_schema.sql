@@ -31,6 +31,27 @@ CREATE TABLE stg_performance (
     ingestion_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS stg_homework;
+CREATE TABLE stg_homework (
+    Student_ID TEXT,
+    Subject TEXT,
+    Assignment_Name TEXT,
+    Due_Date TEXT,
+    Status TEXT,
+    Grade_Feedback TEXT,
+    Guardian_Signature TEXT,
+    ingestion_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS stg_communication;
+CREATE TABLE stg_communication (
+    Student_ID TEXT,
+    Date TEXT,
+    Message_Type TEXT,
+    Message_Content TEXT,
+    ingestion_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- ==========================================
 -- 2. CORE DATA WAREHOUSE (Star Schema)
 -- ==========================================
@@ -66,5 +87,30 @@ CREATE TABLE fact_performance (
     subject TEXT,
     exam_score INTEGER,
     homework_completion_pct REAL,
+    FOREIGN KEY (student_key) REFERENCES dim_students(student_key)
+);
+
+-- Fact: Homework
+DROP TABLE IF EXISTS fact_homework;
+CREATE TABLE fact_homework (
+    homework_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_key INTEGER,
+    subject TEXT,
+    assignment_name TEXT,
+    due_date DATE,
+    status TEXT,
+    grade_feedback TEXT,
+    guardian_signature BOOLEAN,
+    FOREIGN KEY (student_key) REFERENCES dim_students(student_key)
+);
+
+-- Fact: Communication
+DROP TABLE IF EXISTS fact_communication;
+CREATE TABLE fact_communication (
+    communication_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_key INTEGER,
+    date DATE,
+    message_type TEXT,
+    message_content TEXT,
     FOREIGN KEY (student_key) REFERENCES dim_students(student_key)
 );
