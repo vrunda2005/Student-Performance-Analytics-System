@@ -5,8 +5,8 @@ import glob
 
 # Configuration
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(os.path.dirname(PROJECT_ROOT), 'data') # Points to ../data
-DB_PATH = os.path.join(PROJECT_ROOT, 'student_dwh.db')
+DATA_DIR = os.path.join(PROJECT_ROOT, 'data') # Points to ./data
+DB_PATH = os.path.join(DATA_DIR, 'student_dwh.db')
 SQL_SCRIPT_DIR = os.path.join(PROJECT_ROOT, 'sql')
 
 def get_db_connection():
@@ -80,8 +80,12 @@ def run_elt_transformations():
     conn = get_db_connection()
     
     try:
-        with open(os.path.join(SQL_SCRIPT_DIR, '2_views_and_procedures.sql'), 'r') as f:
-            conn.executescript(f.read())
+        scripts = ['2_elt_transformation.sql', '3_analytics_views.sql']
+        for script in scripts:
+            print(f"  -> Executing {script}...")
+            with open(os.path.join(SQL_SCRIPT_DIR, script), 'r') as f:
+                conn.executescript(f.read())
+        
         print("  -> Transformations Complete. Data Warehouse is ready.")
     except Exception as e:
         print(f"  -> Error in SQL Transformations: {e}")
@@ -89,7 +93,7 @@ def run_elt_transformations():
         conn.close()
 
 def main():
-    print("=== Student 360 ETL Pipeline ===")
+    print("=== Student Performance Analytics System ===")
     init_db()
     load_data_to_staging()
     run_elt_transformations()

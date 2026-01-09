@@ -86,6 +86,7 @@ CREATE TABLE fact_performance (
     student_key INTEGER,
     subject TEXT,
     exam_score INTEGER,
+    letter_grade TEXT, -- [NEW] Feature Engineered Column
     homework_completion_pct REAL,
     FOREIGN KEY (student_key) REFERENCES dim_students(student_key)
 );

@@ -10,17 +10,13 @@ def run_spark_analytics():
     print("Spark Session Created.")
 
     # Define paths (assuming running from project root)
-    # Data is in ../data relative to the project root (student_360_pipeline)
+    # Data is in ../data relative to the project root
     # Actually, the project root is /home/vrunda/Projects/data_engineer/student_360_pipeline
     # The data is in /home/vrunda/Projects/data_engineer/data
     # So relative path from project root is ../data
-    source_data_dir = "../data" 
-    
-    # If running from src/ directory directly, we might need to adjust, but let's assume running from root via python src/script.py
-    # To be safe, let's use absolute path based on this file's location
     import os
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # student_360_pipeline/
-    source_data_dir = os.path.join(os.path.dirname(base_dir), "data") # data_engineer/data/
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Project Root
+    source_data_dir = os.path.join(base_dir, "data") # Data Directory
 
     # Load DataFrames
     try:
