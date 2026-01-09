@@ -46,8 +46,7 @@ The project utilizes a synthetic dataset representing a 360-degree view of stude
 
 ---
 
-## 💼 Resume / Interview Talking Points
-*Copy these bullet points to your resume or use them to explain the project in interviews.*
+## 💼 Points
 
 **Project: Student Performance Analytics System**
 *   **Designed and implemented an end-to-end ETL pipeline** using **Python** and **SQL** to ingest and process over 300k+ records of student data.
